@@ -1,9 +1,9 @@
-import RateLimit from "express-rate-limit";
+import RateLimit from 'express-rate-limit';
 
-export const rateLimiter = ({max, windowMs}) => {
+export const rateLimiter = ({ max, windowMs }) => {
   return RateLimit({
     max,
     windowMs,
-    standardHeaders: false
-  })
-}
+    standardHeaders: false,
+  });
+};

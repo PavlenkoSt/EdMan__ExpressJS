@@ -3,14 +3,14 @@
   "editor.fontFamily": "'Fira Code', Hack, Menlo, Monaco, 'Courier New', monospace",
   "cSpell.language": "en,ru",
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true,
+    "source.fixAll.eslint": true
   },
   "eslint.format.enable": true,
   "editor.formatOnSave": true,
   "files.autoSave": "onFocusChange",
   "eslint.alwaysShowStatus": true,
   "[javascript]": {
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[javascriptreact]": {
     "editor.defaultFormatter": "dbaeumer.vscode-eslint"

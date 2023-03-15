@@ -11,7 +11,7 @@ import { sessionOptions } from './utils';
 
 const app = express();
 
-app.use(bodyParser.json({limit: '10kb'}))
+app.use(bodyParser.json({ limit: '10kb' }));
 
 app.use(authRouter);
 app.use('/users', usersRouter);

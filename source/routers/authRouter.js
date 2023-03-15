@@ -1,21 +1,23 @@
-import { Router } from "express";
+import { Router } from 'express';
 
-import { rateLimiter } from "../utils/rateLimiter";
+import { loginSchema } from '../schemas/LoginSchema';
 
-const authRouter = Router()
+import { rateLimiter, validateBody } from '../utils';
 
-authRouter.use(rateLimiter({max: 5, windowMs: 1000 * 60 * 5}))
+const authRouter = Router();
 
-authRouter.post('/login', (req, res) => {
+authRouter.use(rateLimiter({ max: 100, windowMs: 1000 * 60 * 5 }));
+
+authRouter.post('/login', [validateBody(loginSchema)], (req, res) => {
   res.status(200).json({
-    res: 'login'
-  })
-})
+    res: 'login',
+  });
+});
 
 authRouter.post('/logout', (req, res) => {
   res.status(200).json({
-    res: 'logout'
-  })
-})
+    res: 'logout',
+  });
+});
 
-export default authRouter
+export default authRouter;
