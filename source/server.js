@@ -8,10 +8,13 @@ import lessonRouter from './routers/lessonsRouter';
 import usersRouter from './routers/usersRouter';
 
 import { sessionOptions } from './utils';
+import { authMiddleware } from './utils/authMiddleware';
 
 const app = express();
 
 app.use(bodyParser.json({ limit: '10kb' }));
+
+app.use(authMiddleware);
 
 app.use(authRouter);
 app.use('/users', usersRouter);
