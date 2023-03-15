@@ -1,8 +1,12 @@
+import { paginationQueriesSchema } from '../schemas/paginationQueriesSchema';
+
+import { validateQuery } from '../utils';
+
 const { Router } = require('express');
 
 const lessonRouter = Router();
 
-lessonRouter.get('/', (req, res) => {
+lessonRouter.get('/', [validateQuery(paginationQueriesSchema)], (req, res) => {
   res.status(200).json({
     res: 'get all lessons',
   });

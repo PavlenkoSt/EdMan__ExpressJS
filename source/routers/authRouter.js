@@ -1,14 +1,12 @@
 import { Router } from 'express';
 
-import { loginSchema } from '../schemas/LoginSchema';
-
-import { rateLimiter, validateBody } from '../utils';
+import { rateLimiter } from '../utils';
 
 const authRouter = Router();
 
 authRouter.use(rateLimiter({ max: 100, windowMs: 1000 * 60 * 5 }));
 
-authRouter.post('/login', [validateBody(loginSchema)], (req, res) => {
+authRouter.post('/login', (req, res) => {
   res.status(200).json({
     res: 'login',
   });
