@@ -1,13 +1,12 @@
 import { Router } from 'express';
 
 import { createUserSchema } from '../schemas/createUserSchema';
-import { paginationQueriesSchema } from '../schemas/paginationQueriesSchema';
 
-import { validateQuery, validateBody } from '../utils/validate';
+import { validateBody } from '../utils/validate';
 
 const usersRouter = Router();
 
-usersRouter.get('/', [validateQuery(paginationQueriesSchema)], (req, res) => {
+usersRouter.get('/', (req, res) => {
   res.status(200).json({
     res: 'get users',
   });
