@@ -34,7 +34,7 @@ export const errorLoggerMiddleware = (err, req, res, next) => {
     logger.error(`${new Date().toUTCString()} ${err}`);
   }
 
-  res.status(500).json({
+  res.status(err.statusCode || 500).json({
     messaage: err.message,
   });
 };

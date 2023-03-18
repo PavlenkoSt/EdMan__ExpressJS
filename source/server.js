@@ -6,7 +6,7 @@ import classesRouter from './routers/classesRouter';
 import lessonRouter from './routers/lessonsRouter';
 import usersRouter from './routers/usersRouter';
 
-import { sessionOptions, authMiddleware, loggerMiddleware, errorLoggerMiddleware } from './utils';
+import { sessionOptions, authMiddleware, loggerMiddleware, errorLoggerMiddleware, noEndpoint } from './utils';
 
 const app = express();
 
@@ -23,6 +23,7 @@ app.use('/users', usersRouter);
 app.use('/lessons', lessonRouter);
 app.use('/classes', classesRouter);
 
+app.use('*', noEndpoint);
 app.use(errorLoggerMiddleware);
 
 export { app };
