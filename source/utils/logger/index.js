@@ -28,3 +28,13 @@ export const loggerMiddleware = (req, res, next) => {
 
   return next();
 };
+
+export const errorLoggerMiddleware = (err, req, res, next) => {
+  if (process.env.NODE_ENV !== 'test') {
+    logger.error(`${new Date().toUTCString()} ${err}`);
+  }
+
+  res.status(500).json({
+    messaage: err.message,
+  });
+};
