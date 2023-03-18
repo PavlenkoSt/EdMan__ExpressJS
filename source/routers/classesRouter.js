@@ -1,5 +1,7 @@
 import { Router } from 'express';
 
+import { authMiddleware } from '../utils';
+
 const classesRouter = Router();
 
 classesRouter.get('/', (req, res) => {
@@ -8,31 +10,31 @@ classesRouter.get('/', (req, res) => {
   });
 });
 
-classesRouter.post('/', (req, res) => {
+classesRouter.post('/', [authMiddleware], (req, res) => {
   res.status(200).json({
     res: 'create class',
   });
 });
 
-classesRouter.get('/:hash', (req, res) => {
+classesRouter.get('/:hash', [authMiddleware], (req, res) => {
   res.status(200).json({
     res: 'get class by hash',
   });
 });
 
-classesRouter.put('/:hash', (req, res) => {
+classesRouter.put('/:hash', [authMiddleware], (req, res) => {
   res.status(200).json({
     res: 'update class by hash',
   });
 });
 
-classesRouter.delete('/:hash', (req, res) => {
+classesRouter.delete('/:hash', [authMiddleware], (req, res) => {
   res.status(200).json({
     res: 'delete class by hash',
   });
 });
 
-classesRouter.post('/:hash/enroll', (req, res) => {
+classesRouter.post('/:hash/enroll', [authMiddleware], (req, res) => {
   const { hash } = req.params;
 
   res.status(200).json({
@@ -40,7 +42,7 @@ classesRouter.post('/:hash/enroll', (req, res) => {
   });
 });
 
-classesRouter.post('/:hash/expel', (req, res) => {
+classesRouter.post('/:hash/expel', [authMiddleware], (req, res) => {
   const { hash } = req.params;
 
   res.status(200).json({

@@ -6,7 +6,7 @@ import classesRouter from './routers/classesRouter';
 import lessonRouter from './routers/lessonsRouter';
 import usersRouter from './routers/usersRouter';
 
-import { sessionOptions, authMiddleware, loggerMiddleware, errorLoggerMiddleware, noEndpoint } from './utils';
+import { sessionOptions, loggerMiddleware, errorLoggerMiddleware, noEndpoint } from './utils';
 
 const app = express();
 
@@ -16,8 +16,6 @@ app.use(express.json({ limit: '10kb' }));
 app.use(loggerMiddleware);
 
 app.use(authRouter);
-
-app.use(authMiddleware);
 
 app.use('/users', usersRouter);
 app.use('/lessons', lessonRouter);

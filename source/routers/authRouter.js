@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { rateLimiter } from '../utils';
+import { authMiddleware, rateLimiter } from '../utils';
 
 const authRouter = Router();
 
@@ -12,7 +12,7 @@ authRouter.post('/login', (req, res) => {
   });
 });
 
-authRouter.post('/logout', (req, res) => {
+authRouter.post('/logout', [authMiddleware], (req, res) => {
   res.status(200).json({
     res: 'logout',
   });

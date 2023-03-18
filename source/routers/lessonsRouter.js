@@ -1,4 +1,6 @@
-const { Router } = require('express');
+import { Router } from 'express';
+
+import { authMiddleware } from '../utils';
 
 const lessonRouter = Router();
 
@@ -8,31 +10,31 @@ lessonRouter.get('/', (req, res) => {
   });
 });
 
-lessonRouter.post('/', (req, res) => {
+lessonRouter.post('/', [authMiddleware], (req, res) => {
   res.status(200).json({
     res: 'create lesson',
   });
 });
 
-lessonRouter.get('/:hash', (req, res) => {
+lessonRouter.get('/:hash', [authMiddleware], (req, res) => {
   res.status(200).json({
     res: 'get lesson by hash',
   });
 });
 
-lessonRouter.put('/:hash', (req, res) => {
+lessonRouter.put('/:hash', [authMiddleware], (req, res) => {
   res.status(200).json({
     res: 'update lesson by hash',
   });
 });
 
-lessonRouter.delete('/:hash', (req, res) => {
+lessonRouter.delete('/:hash', [authMiddleware], (req, res) => {
   res.status(200).json({
     res: 'delete lesson by hash',
   });
 });
 
-lessonRouter.post('/:hash/videos', (req, res) => {
+lessonRouter.post('/:hash/videos', [authMiddleware], (req, res) => {
   const { hash } = req.params;
 
   res.status(200).json({
@@ -40,7 +42,7 @@ lessonRouter.post('/:hash/videos', (req, res) => {
   });
 });
 
-lessonRouter.get('/:hash/videos/:videoHash', (req, res) => {
+lessonRouter.get('/:hash/videos/:videoHash', [authMiddleware], (req, res) => {
   const { hash, videoHash } = req.params;
 
   res.status(200).json({
@@ -48,7 +50,7 @@ lessonRouter.get('/:hash/videos/:videoHash', (req, res) => {
   });
 });
 
-lessonRouter.delete('/:hash/videos/:videoHash', (req, res) => {
+lessonRouter.delete('/:hash/videos/:videoHash', [authMiddleware], (req, res) => {
   const { hash, videoHash } = req.params;
 
   res.status(200).json({
@@ -56,7 +58,7 @@ lessonRouter.delete('/:hash/videos/:videoHash', (req, res) => {
   });
 });
 
-lessonRouter.post('/:hash/keynotes', (req, res) => {
+lessonRouter.post('/:hash/keynotes', [authMiddleware], (req, res) => {
   const { hash } = req.params;
 
   res.status(200).json({
@@ -64,7 +66,7 @@ lessonRouter.post('/:hash/keynotes', (req, res) => {
   });
 });
 
-lessonRouter.get('/:hash/keynotes/:videoHash', (req, res) => {
+lessonRouter.get('/:hash/keynotes/:videoHash', [authMiddleware], (req, res) => {
   const { hash, videoHash } = req.params;
 
   res.status(200).json({
@@ -72,7 +74,7 @@ lessonRouter.get('/:hash/keynotes/:videoHash', (req, res) => {
   });
 });
 
-lessonRouter.delete('/:hash/keynotes/:videoHash', (req, res) => {
+lessonRouter.delete('/:hash/keynotes/:videoHash', [authMiddleware], (req, res) => {
   const { hash, videoHash } = req.params;
 
   res.status(200).json({
