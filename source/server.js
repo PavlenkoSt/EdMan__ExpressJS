@@ -10,7 +10,7 @@ import { sessionOptions, loggerMiddleware, errorLoggerMiddleware, noEndpoint } f
 
 const app = express();
 
-app.use(session(sessionOptions));
+// app.use(session(sessionOptions));
 app.use(express.json({ limit: '10kb' }));
 
 app.use(loggerMiddleware);
