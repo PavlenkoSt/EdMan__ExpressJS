@@ -1,12 +1,11 @@
 import express from 'express';
-import session from 'express-session';
 
 import authRouter from './routers/authRouter';
 import classesRouter from './routers/classesRouter';
 import lessonRouter from './routers/lessonsRouter';
 import usersRouter from './routers/usersRouter';
 
-import { sessionOptions, loggerMiddleware, errorLoggerMiddleware, noEndpoint } from './utils';
+import { loggerMiddleware, errorLoggerMiddleware, noEndpoint } from './utils';
 
 const app = express();
 

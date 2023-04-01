@@ -5,21 +5,15 @@ import { authMiddleware } from '../utils';
 const classesRouter = Router();
 
 classesRouter.get('/', (req, res) => {
-  res.status(200).json({
-    res: 'get classes',
-  });
+  res.status(200).json([]);
 });
 
 classesRouter.post('/', [authMiddleware], (req, res) => {
-  res.status(200).json({
-    res: 'create class',
-  });
+  res.status(201);
 });
 
 classesRouter.get('/:hash', [authMiddleware], (req, res) => {
-  res.status(200).json({
-    res: 'get class by hash',
-  });
+  res.status(200).json({});
 });
 
 classesRouter.put('/:hash', [authMiddleware], (req, res) => {
