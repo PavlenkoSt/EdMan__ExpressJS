@@ -1,9 +1,9 @@
 import { Router } from 'express';
 
-import { createUserSchema } from '../schemas';
-import { authMiddleware } from '../utils';
+import { createUserSchema } from '../validationSchemas';
+import { UsersController } from '../controllers';
 
-import { validateBody } from '../utils/validate';
+import { authMiddleware, validateBody } from '../utils';
 
 const usersRouter = Router();
 
@@ -13,9 +13,13 @@ usersRouter.get('/', (req, res) => {
   });
 });
 
-usersRouter.post('/', [authMiddleware, validateBody(createUserSchema)], (req, res) => {
-  res.status(200).json({
-    res: 'create user',
+usersRouter.post('/', [authMiddleware, validateBody(createUserSchema)], async (req, res) => {
+  const usersController = new UsersController(req.body);
+  const user = await usersController.create();
+
+  res.status(201).json({
+    message: 'User successfully created',
+    res: user,
   });
 });
 

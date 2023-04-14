@@ -26,19 +26,6 @@ passport.use(
 );
 
 export const authMiddleware = (req, res, next) => {
-  // if (req.headers.authorization === process.env.PASSWORD) {
-  //   return next();
-  // }
-
-  // -------sessions--------------
-  // const { user } = req.session;
-
-  // if (user && user.email) {
-  //   return next();
-  // }
-
-  // return res.send(401);
-
   passport.authenticate('jwt', { session: false }, (err, user, info) => {
     if (err) {
       return next(err);
