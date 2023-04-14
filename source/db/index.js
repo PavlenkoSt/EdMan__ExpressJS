@@ -10,13 +10,8 @@ const { DB_URL } = getDBUrl();
 
 const mongooseOptions = {
   promiseLibrary: global.Promise,
-  poolSize: 50,
-  keepAlive: 30000,
   connectTimeoutMS: 5000,
   useNewUrlParser: true,
-  useFindAndModify: false,
-  useCreateIndex: true,
-  useUnifiedTopology: true,
   autoIndex: false,
 };
 
