@@ -7,19 +7,20 @@ const contentDetailSchema = new mongoose.Schema({
   uri: { type: String },
 });
 
-const lessonSchema = new mongoose.Schema({
-  title: { type: String },
-  description: { type: String },
-  order: { type: Number, index: true },
-  hash: { type: String, unique: true },
-  availability: [String],
-  content: {
-    videos: [contentDetailSchema],
-    keynotes: [contentDetailSchema],
+const lessonSchema = new mongoose.Schema(
+  {
+    title: { type: String },
+    description: { type: String },
+    order: { type: Number, index: true },
+    hash: { type: String, unique: true },
+    availability: [String],
+    content: {
+      videos: [contentDetailSchema],
+      keynotes: [contentDetailSchema],
+    },
   },
-  createdAt: { type: Date, default: Date.now() },
-  modifiedAt: { type: Date },
-});
+  { timestamps: true }
+);
 
 const LessonODM = mongoose.model('Lesson', lessonSchema);
 

@@ -12,20 +12,21 @@ const lessonsSchema = new mongoose.Schema({
   scheduled: { type: Date },
 });
 
-const classSchema = new mongoose.Schema({
-  title: { type: String },
-  description: { type: String },
-  hash: { type: String, unique: true },
-  students: [studentSchema],
-  lessons: [lessonsSchema],
-  duration: {
-    started: { type: Date },
-    closed: { type: Date },
+const classSchema = new mongoose.Schema(
+  {
+    title: { type: String },
+    description: { type: String },
+    hash: { type: String, unique: true },
+    students: [studentSchema],
+    lessons: [lessonsSchema],
+    duration: {
+      started: { type: Date },
+      closed: { type: Date },
+    },
+    order: { type: Number, index: true },
   },
-  order: { type: Number, index: true },
-  createdAt: { type: Date, default: Date.now() },
-  modifiedAt: { type: Date },
-});
+  { timestamps: true }
+);
 
 classSchema.index({ title: 'text', description: 'text' });
 
