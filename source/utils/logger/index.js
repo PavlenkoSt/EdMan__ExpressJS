@@ -1,6 +1,7 @@
 import winston from 'winston';
 
 import { NotFoundError, ValidationError } from '../errors';
+import { LogService } from '../../services';
 
 const { combine, timestamp, printf, colorize } = winston.format;
 
@@ -69,10 +70,17 @@ if (process.env.NODE_ENV !== 'production') {
   notFoundErrorLogger.add(consoleTransport);
 }
 
+const logToDB = data => {
+  const logService = new LogService(data);
+  logService.create();
+};
+
 export const loggerMiddleware = (req, res, next) => {
   const { originalUrl, method, body } = req;
 
   infoLogger.info({ originalUrl, method, body, message: 'Info' });
+
+  logToDB({ method, path: originalUrl, payload: body, agent: req.headers['user-agent'] });
 
   return next();
 };
