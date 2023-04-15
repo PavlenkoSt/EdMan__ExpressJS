@@ -2,8 +2,8 @@ import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
   name: {
-    first: { type: String },
-    last: { type: String },
+    first: { type: String, index: true },
+    last: { type: String, index: true },
   },
   phones: [
     {
@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
   ],
   emails: [
     {
-      email: { type: String },
+      email: { type: String, unique: true },
       primary: { type: Boolean },
     },
   ],
@@ -27,11 +27,13 @@ const userSchema = new mongoose.Schema({
     skype: { type: String },
   },
   notes: { type: String },
-  hash: { type: String },
+  hash: { type: String, unique: true },
   disabled: { type: Boolean },
   createdAt: { type: Date, default: Date.now() },
   modifiedAt: { type: Date },
 });
+
+userSchema.index({ notes: 'text' });
 
 const UserODM = mongoose.model('User', userSchema);
 

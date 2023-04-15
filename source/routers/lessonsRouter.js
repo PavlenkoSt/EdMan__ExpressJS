@@ -1,6 +1,9 @@
 import { Router } from 'express';
 
-import { authMiddleware } from '../utils';
+import { LessonsController } from '../controllers';
+
+import { authMiddleware, validateBody } from '../utils';
+import { createLessonSchema } from '../validationSchemas';
 
 const lessonRouter = Router();
 
@@ -10,9 +13,14 @@ lessonRouter.get('/', (req, res) => {
   });
 });
 
-lessonRouter.post('/', [authMiddleware], (req, res) => {
+lessonRouter.post('/', [authMiddleware, validateBody(createLessonSchema)], async (req, res) => {
+  const lessonController = new LessonsController(req.body);
+
+  const lesson = await lessonController.create();
+
   res.status(200).json({
-    res: 'create lesson',
+    res: 'created lesson successfullt',
+    data: lesson,
   });
 });
 

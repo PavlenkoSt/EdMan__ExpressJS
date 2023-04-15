@@ -1,6 +1,9 @@
 import { Router } from 'express';
 
-import { authMiddleware } from '../utils';
+import { ClassesController } from '../controllers';
+
+import { authMiddleware, validateBody } from '../utils';
+import { createClassSchema } from '../validationSchemas';
 
 const classesRouter = Router();
 
@@ -8,8 +11,15 @@ classesRouter.get('/', (req, res) => {
   res.status(200).json([]);
 });
 
-classesRouter.post('/', [authMiddleware], (req, res) => {
-  res.status(201);
+classesRouter.post('/', [authMiddleware, validateBody(createClassSchema)], async (req, res) => {
+  const classesController = new ClassesController(req.body);
+
+  const classItem = await classesController.create();
+
+  res.status(201).json({
+    res: 'created successfully',
+    data: classItem,
+  });
 });
 
 classesRouter.get('/:hash', [authMiddleware], (req, res) => {

@@ -1,14 +1,14 @@
-import { UserModel } from '../models';
+import { UserService } from '../services';
 
 export class UsersController {
-  constructor(data) {
-    this.models = {
-      user: new UserModel(data),
+  constructor(userData) {
+    this.services = {
+      user: new UserService(userData),
     };
   }
 
   async create() {
-    const user = await this.models.user.createUser();
+    const user = await this.services.user.createUser();
 
     return user;
   }

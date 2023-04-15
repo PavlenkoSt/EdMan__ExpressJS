@@ -1,6 +1,6 @@
 import { UserODM } from '../odm';
 
-export class UserModel {
+export class UserService {
   constructor(data) {
     this.data = data;
   }
