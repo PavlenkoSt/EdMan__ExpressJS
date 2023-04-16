@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 
+import { generateHashById } from '../utils';
+
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -35,6 +37,18 @@ const userSchema = new mongoose.Schema(
 );
 
 userSchema.index({ notes: 'text' });
+
+userSchema.pre('save', async function (next) {
+  try {
+    const hash = await generateHashById(this._id.toString());
+
+    this.hash = hash;
+
+    return next();
+  } catch (e) {
+    next(e);
+  }
+});
 
 const UserODM = mongoose.model('User', userSchema);
 

@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 
+import { generateHashById } from '../utils';
+
 const studentSchema = new mongoose.Schema({
   user: { type: mongoose.Types.ObjectId },
   status: { type: String },
@@ -29,6 +31,18 @@ const classSchema = new mongoose.Schema(
 );
 
 classSchema.index({ title: 'text', description: 'text' });
+
+classSchema.pre('save', async function (next) {
+  try {
+    const hash = await generateHashById(this._id.toString());
+
+    this.hash = hash;
+
+    return next();
+  } catch (e) {
+    next(e);
+  }
+});
 
 const ClassODM = mongoose.model('Class', classSchema);
 
