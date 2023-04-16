@@ -1,12 +1,10 @@
 import { ClassODM } from '../odm';
 
 export class ClassService {
-  constructor(data) {
-    this.data = data;
-  }
+  constructor() {}
 
-  async create() {
-    const classItem = await ClassODM.create(this.data);
+  async create(data) {
+    const classItem = await ClassODM.create(data);
 
     return classItem;
   }

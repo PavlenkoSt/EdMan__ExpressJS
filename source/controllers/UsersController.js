@@ -1,14 +1,14 @@
 import { UserService } from '../services';
 
 export class UsersController {
-  constructor(userData) {
+  constructor() {
     this.services = {
-      user: new UserService(userData),
+      user: new UserService(),
     };
   }
 
-  async create() {
-    const user = await this.services.user.createUser();
+  async create(data) {
+    const user = await this.services.user.createUser(data);
 
     return user;
   }

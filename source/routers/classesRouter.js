@@ -7,14 +7,14 @@ import { createClassSchema } from '../validationSchemas';
 
 const classesRouter = Router();
 
+const classesController = new ClassesController();
+
 classesRouter.get('/', (req, res) => {
   res.status(200).json([]);
 });
 
 classesRouter.post('/', [authMiddleware, validateBody(createClassSchema)], async (req, res) => {
-  const classesController = new ClassesController(req.body);
-
-  const classItem = await classesController.create();
+  const classItem = await classesController.create(req.body);
 
   res.status(201).json({
     res: 'created successfully',

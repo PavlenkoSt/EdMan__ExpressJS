@@ -1,12 +1,10 @@
 import { UserODM } from '../odm';
 
 export class UserService {
-  constructor(data) {
-    this.data = data;
-  }
+  constructor() {}
 
-  async createUser() {
-    const user = await UserODM.create(this.data);
+  async createUser(data) {
+    const user = await UserODM.create(data);
 
     return user;
   }

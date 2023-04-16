@@ -7,6 +7,8 @@ import { createLessonSchema } from '../validationSchemas';
 
 const lessonRouter = Router();
 
+const lessonController = new LessonsController();
+
 lessonRouter.get('/', (req, res) => {
   res.status(200).json({
     res: 'get all lessons',
@@ -14,9 +16,7 @@ lessonRouter.get('/', (req, res) => {
 });
 
 lessonRouter.post('/', [authMiddleware, validateBody(createLessonSchema)], async (req, res) => {
-  const lessonController = new LessonsController(req.body);
-
-  const lesson = await lessonController.create();
+  const lesson = await lessonController.create(req.body);
 
   res.status(200).json({
     res: 'created lesson successfullt',

@@ -1,14 +1,14 @@
 import { ClassService } from '../services';
 
 export class ClassesController {
-  constructor(classData) {
+  constructor() {
     this.services = {
-      classService: new ClassService(classData),
+      classService: new ClassService(),
     };
   }
 
-  async create() {
-    const classItem = await this.services.classService.create();
+  async create(classData) {
+    const classItem = await this.services.classService.create(classData);
 
     return classItem;
   }

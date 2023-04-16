@@ -71,8 +71,8 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const logToDB = data => {
-  const logService = new LogService(data);
-  logService.create();
+  const logService = new LogService();
+  logService.create(data);
 };
 
 export const loggerMiddleware = (req, res, next) => {

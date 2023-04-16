@@ -7,6 +7,8 @@ import { authMiddleware, validateBody } from '../utils';
 
 const usersRouter = Router();
 
+const usersController = new UsersController();
+
 usersRouter.get('/', (req, res) => {
   res.status(200).json({
     res: 'get users',
@@ -14,8 +16,7 @@ usersRouter.get('/', (req, res) => {
 });
 
 usersRouter.post('/', [authMiddleware, validateBody(createUserSchema)], async (req, res) => {
-  const usersController = new UsersController(req.body);
-  const user = await usersController.create();
+  const user = await usersController.create(req.body);
 
   res.status(201).json({
     message: 'User successfully created',

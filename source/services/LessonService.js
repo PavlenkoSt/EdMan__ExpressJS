@@ -1,12 +1,10 @@
 import { LessonODM } from '../odm';
 
 export class LessonService {
-  constructor(data) {
-    this.data = data;
-  }
+  constructor() {}
 
-  async create() {
-    const lesson = await LessonODM.create(this.data);
+  async create(data) {
+    const lesson = await LessonODM.create(data);
 
     return lesson;
   }

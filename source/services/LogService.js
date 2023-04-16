@@ -1,12 +1,10 @@
 import { LogODM } from '../odm';
 
 export class LogService {
-  constructor(data) {
-    this.data = data;
-  }
+  constructor() {}
 
-  async create() {
-    const log = LogODM.create(this.data);
+  async create(data) {
+    const log = LogODM.create(data);
 
     return log;
   }
