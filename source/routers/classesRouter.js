@@ -14,12 +14,13 @@ classesRouter.get('/', (req, res) => {
 });
 
 classesRouter.post('/', [authMiddleware, validateBody(createClassSchema)], async (req, res) => {
-  const classItem = await classesController.create(req.body);
+  try {
+    const classItem = await classesController.create(req.body);
 
-  res.status(201).json({
-    res: 'created successfully',
-    data: classItem,
-  });
+    res.status(201).json(classItem);
+  } catch (e) {
+    res.status(e.statusCode || 500).json(e);
+  }
 });
 
 classesRouter.get('/:hash', [authMiddleware], (req, res) => {

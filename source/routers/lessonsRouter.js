@@ -16,12 +16,13 @@ lessonRouter.get('/', (req, res) => {
 });
 
 lessonRouter.post('/', [authMiddleware, validateBody(createLessonSchema)], async (req, res) => {
-  const lesson = await lessonController.create(req.body);
+  try {
+    const lesson = await lessonController.create(req.body);
 
-  res.status(200).json({
-    res: 'created lesson successfullt',
-    data: lesson,
-  });
+    res.status(201).json(lesson);
+  } catch (e) {
+    res.status(e.statusCode || 500).json(e);
+  }
 });
 
 lessonRouter.get('/:hash', [authMiddleware], (req, res) => {
