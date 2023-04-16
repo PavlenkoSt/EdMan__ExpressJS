@@ -29,7 +29,7 @@ export class ClassService {
   }
 
   async updateOneByHash(hash, data) {
-    const newClass = await ClassODM.findOneAndUpdate({ hash }, data).lean();
+    const newClass = await ClassODM.findOneAndUpdate({ hash }, data, { new: true }).lean();
 
     if (!newClass) {
       throw new NotFoundError(notFoundMessage);

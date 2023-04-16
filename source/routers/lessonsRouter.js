@@ -3,16 +3,23 @@ import { Router } from 'express';
 import { LessonsController } from '../controllers';
 
 import { authMiddleware, validateBody } from '../utils';
-import { createLessonSchema } from '../validationSchemas';
+
+import { createLessonSchema, updateLessonSchema } from '../validationSchemas';
 
 const lessonRouter = Router();
 
 const lessonController = new LessonsController();
 
-lessonRouter.get('/', (req, res) => {
-  res.status(200).json({
-    res: 'get all lessons',
-  });
+lessonRouter.get('/', async (req, res) => {
+  try {
+    const lessons = await lessonController.getAll();
+
+    res.status(200).json(lessons);
+  } catch (e) {
+    const { message } = e;
+
+    res.status(e.statusCode || 500).json({ message });
+  }
 });
 
 lessonRouter.post('/', [authMiddleware, validateBody(createLessonSchema)], async (req, res) => {
@@ -21,26 +28,46 @@ lessonRouter.post('/', [authMiddleware, validateBody(createLessonSchema)], async
 
     res.status(201).json(lesson);
   } catch (e) {
-    res.status(e.statusCode || 500).json(e);
+    const { message } = e;
+
+    res.status(e.statusCode || 500).json({ message });
   }
 });
 
-lessonRouter.get('/:hash', [authMiddleware], (req, res) => {
-  res.status(200).json({
-    res: 'get lesson by hash',
-  });
+lessonRouter.get('/:hash', [authMiddleware], async (req, res) => {
+  try {
+    const lesson = await lessonController.getOneByHash(req.params.hash);
+
+    res.status(200).json(lesson);
+  } catch (e) {
+    const { message } = e;
+
+    res.status(e.statusCode || 500).json({ message });
+  }
 });
 
-lessonRouter.put('/:hash', [authMiddleware], (req, res) => {
-  res.status(200).json({
-    res: 'update lesson by hash',
-  });
+lessonRouter.put('/:hash', [authMiddleware, validateBody(updateLessonSchema)], async (req, res) => {
+  try {
+    const newLesson = await lessonController.updateOneByHash(req.params.hash, req.body);
+
+    res.status(200).json(newLesson);
+  } catch (e) {
+    const { message } = e;
+
+    res.status(e.statusCode || 500).json({ message });
+  }
 });
 
-lessonRouter.delete('/:hash', [authMiddleware], (req, res) => {
-  res.status(200).json({
-    res: 'delete lesson by hash',
-  });
+lessonRouter.delete('/:hash', [authMiddleware], async (req, res) => {
+  try {
+    const newLesson = await lessonController.deleteOneByHash(req.params.hash);
+
+    res.status(200).json(newLesson);
+  } catch (e) {
+    const { message } = e;
+
+    res.status(e.statusCode || 500).json({ message });
+  }
 });
 
 lessonRouter.post('/:hash/videos', [authMiddleware], (req, res) => {
