@@ -4,7 +4,7 @@ export class LessonService {
   constructor() {}
 
   async create(data) {
-    const lesson = await LessonODM.create(data);
+    const lesson = await LessonODM.create(data).lean();
 
     return lesson;
   }
