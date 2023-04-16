@@ -12,7 +12,6 @@ const lessonSchema = {
   title: { type: 'string' },
   description: { type: 'string' },
   order: { type: 'integer' },
-  hash: { type: 'string' },
   availability: { type: 'array', items: { type: 'string' } },
   content: {
     videos: contentDetails,
@@ -23,7 +22,7 @@ const lessonSchema = {
 export const createLessonSchema = {
   type: 'object',
   properties: lessonSchema,
-  required: ['title', 'description', 'hash', 'order'],
+  required: ['title', 'description', 'order'],
 };
 
 export const updateLessonSchema = {

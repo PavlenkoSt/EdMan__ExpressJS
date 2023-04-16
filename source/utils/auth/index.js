@@ -2,7 +2,7 @@ import passport from 'passport';
 import jwt from 'jsonwebtoken';
 
 import { NotFoundError } from '../errors';
-import { users } from '../mockDB/users';
+import { UserODM } from '../../odm';
 
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
@@ -13,10 +13,8 @@ passport.use(
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       secretOrKey: process.env.SECRET_JWT,
     },
-    (jwt_payload, done) => {
-      console.log('jwt_payload', jwt_payload);
-
-      const user = users.find(user => user.id === jwt_payload.id);
+    async (jwt_payload, done) => {
+      const user = await UserODM.findById(jwt_payload.id);
 
       if (!user) return done(new NotFoundError(), null);
 
@@ -43,7 +41,6 @@ export const authMiddleware = (req, res, next) => {
 
 export const generateToken = user => {
   const payload = {
-    email: user.email,
     id: user.id,
   };
 

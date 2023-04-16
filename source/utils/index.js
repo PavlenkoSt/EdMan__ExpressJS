@@ -6,5 +6,4 @@ export { authMiddleware, generateToken } from './auth';
 export { authForTest } from './auth/authForTest';
 export { loggerMiddleware, errorLoggerMiddleware } from './logger';
 export { noEndpoint } from './noEndpoint';
-export { users } from './mockDB/users';
 export { generateHashById } from './generateHashById';

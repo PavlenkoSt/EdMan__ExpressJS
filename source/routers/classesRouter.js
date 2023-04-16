@@ -28,9 +28,9 @@ classesRouter.post('/', [authMiddleware, validateBody(createClassSchema)], async
 
     res.status(201).json(classItem);
   } catch (e) {
-    const { message } = e;
+    const { message, statusCode } = e;
 
-    res.status(e.statusCode || 500).json(message);
+    res.status(statusCode || 500).json(message);
   }
 });
 

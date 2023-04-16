@@ -19,7 +19,6 @@ const lessonsSchema = {
 const classSchema = {
   title: { type: 'string' },
   description: { type: 'string' },
-  hash: { type: 'string' },
   students: {
     type: 'array',
     items: studentSchema,
@@ -41,7 +40,7 @@ const classSchema = {
 export const createClassSchema = {
   type: 'object',
   properties: classSchema,
-  required: ['title', 'description', 'hash', 'duration', 'order'],
+  required: ['title', 'description', 'duration', 'order'],
 };
 
 export const updateClassSchema = {

@@ -1,7 +1,7 @@
 export class ValidationError extends Error {
   constructor(...args) {
     super(...args);
-    const [message, details, statusCode = 400] = args;
+    const [, details, statusCode = 400] = args;
 
     if (typeof statusCode !== 'number') {
       throw new Error('can not construct ValidationError due to arguments error');
