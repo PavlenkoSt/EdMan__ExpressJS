@@ -1,6 +1,6 @@
 import { UserODM } from '../odm';
 
-import { NotFoundError } from '../utils/errors';
+import { NotFoundError, ValidationError } from '../utils/errors';
 
 const notFoundErrorMessage = 'User not found';
 
@@ -14,13 +14,13 @@ export class UserService {
   }
 
   async create(data) {
-    const user = await UserODM.create(data).lean();
+    const user = await UserODM.create(data);
 
     return user;
   }
 
   async getOneByHash(hash) {
-    const user = await UserODM.findOne({ hash }).lean();
+    const user = await UserODM.findOne({ hash });
 
     if (!user) {
       throw new NotFoundError(notFoundErrorMessage);
@@ -30,7 +30,7 @@ export class UserService {
   }
 
   async updateOneByHash(hash, data) {
-    const user = await UserODM.findOneAndUpdate({ hash }, data, { new: true }).lean();
+    const user = await UserODM.findOneAndUpdate({ hash }, data, { new: true });
 
     if (!user) {
       throw new NotFoundError(notFoundErrorMessage);
@@ -40,10 +40,24 @@ export class UserService {
   }
 
   async deleteOneByHash(hash) {
-    const user = await UserODM.findOneAndDelete({ hash }).lean();
+    const user = await UserODM.findOneAndDelete({ hash });
 
     if (!user) {
       throw new NotFoundError(notFoundErrorMessage);
+    }
+
+    return user;
+  }
+
+  async findOneByPrimaryEmail(email) {
+    const user = await UserODM.findOne({
+      emails: {
+        $elemMatch: { email, primary: true },
+      },
+    });
+
+    if (!user) {
+      throw new ValidationError('Invalid credentials');
     }
 
     return user;

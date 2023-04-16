@@ -2,36 +2,40 @@ import { Router } from 'express';
 
 import { authMiddleware, rateLimiter, generateToken, users } from '../utils';
 
+import { AuthController } from '../controllers';
+
 const authRouter = Router();
+
+const authController = new AuthController();
 
 authRouter.use(rateLimiter({ max: 100, windowMs: 1000 * 60 * 5 }));
 
-authRouter.post('/login', (req, res) => {
-  const { email } = req.body;
+authRouter.post('/login', async (req, res) => {
+  try {
+    // verbatim8872@gmail.com
+    // 123123
+    const { email, password } = req.body;
 
-  const user = users.find(user => user.email === email);
+    const token = await authController.auth(email, password);
 
-  if (!user) {
-    return res.status(400).json({
-      res: 'credentials are not valid',
+    res.set('X-TOKEN', token);
+
+    res.status(200).json({
+      res: 'Authorized - ' + email,
     });
+  } catch (e) {
+    const { message, statusCode } = e;
+
+    res.status(statusCode || 500).json({ message });
   }
-
-  const token = generateToken(user);
-
-  res.set('X-TOKEN', token);
-
-  res.status(200).json({
-    res: 'WELCOME, your email - ' + email,
-  });
 });
 
 authRouter.post('/logout', [authMiddleware], (req, res) => {
-  // req.session.destroy(error => {
+  res.set('X-TOKEN', '');
+
   res.status(200).json({
     res: 'logout',
   });
-  // });
 });
 
 export default authRouter;

@@ -13,7 +13,7 @@ export class ClassService {
   }
 
   async getOneByHash(hash) {
-    const classItem = await ClassODM.findOne({ hash }).lean();
+    const classItem = await ClassODM.findOne({ hash });
 
     if (!classItem) {
       throw new NotFoundError(notFoundMessage);
@@ -23,13 +23,13 @@ export class ClassService {
   }
 
   async create(data) {
-    const classItem = await ClassODM.create(data).lean();
+    const classItem = await ClassODM.create(data);
 
     return classItem;
   }
 
   async updateOneByHash(hash, data) {
-    const newClass = await ClassODM.findOneAndUpdate({ hash }, data, { new: true }).lean();
+    const newClass = await ClassODM.findOneAndUpdate({ hash }, data, { new: true });
 
     if (!newClass) {
       throw new NotFoundError(notFoundMessage);
