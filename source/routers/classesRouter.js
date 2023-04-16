@@ -3,14 +3,23 @@ import { Router } from 'express';
 import { ClassesController } from '../controllers';
 
 import { authMiddleware, validateBody } from '../utils';
-import { createClassSchema } from '../validationSchemas';
+
+import { createClassSchema, updateClassSchema } from '../validationSchemas';
 
 const classesRouter = Router();
 
 const classesController = new ClassesController();
 
-classesRouter.get('/', (req, res) => {
-  res.status(200).json([]);
+classesRouter.get('/', async (req, res) => {
+  try {
+    const classes = await classesController.getAll();
+
+    return classes;
+  } catch (e) {
+    const { message } = e;
+
+    res.status(e.statusCode || 500).json(message);
+  }
 });
 
 classesRouter.post('/', [authMiddleware, validateBody(createClassSchema)], async (req, res) => {
@@ -19,24 +28,46 @@ classesRouter.post('/', [authMiddleware, validateBody(createClassSchema)], async
 
     res.status(201).json(classItem);
   } catch (e) {
-    res.status(e.statusCode || 500).json(e);
+    const { message } = e;
+
+    res.status(e.statusCode || 500).json(message);
   }
 });
 
-classesRouter.get('/:hash', [authMiddleware], (req, res) => {
-  res.status(200).json({});
+classesRouter.get('/:hash', [authMiddleware], async (req, res) => {
+  try {
+    const classItem = await classesController.getOneByHash(req.params.hash);
+
+    res.status(200).json(classItem);
+  } catch (e) {
+    const { message } = e;
+
+    res.status(e.statusCode || 500).json(message);
+  }
 });
 
-classesRouter.put('/:hash', [authMiddleware], (req, res) => {
-  res.status(200).json({
-    res: 'update class by hash',
-  });
+classesRouter.put('/:hash', [authMiddleware, validateBody(updateClassSchema)], async (req, res) => {
+  try {
+    const classItem = await classesController.updateOneByHash(req.params.hash, req.body);
+
+    res.status(200).json(classItem);
+  } catch (e) {
+    const { message } = e;
+
+    res.status(e.statusCode || 500).json(message);
+  }
 });
 
-classesRouter.delete('/:hash', [authMiddleware], (req, res) => {
-  res.status(200).json({
-    res: 'delete class by hash',
-  });
+classesRouter.delete('/:hash', [authMiddleware], async (req, res) => {
+  try {
+    const deleted = await classesController.deleteOneByHash(req.params.hash);
+
+    res.status(200).json({ message: 'ok' });
+  } catch (e) {
+    const { message } = e;
+
+    res.status(e.statusCode || 500).json(message);
+  }
 });
 
 classesRouter.post('/:hash/enroll', [authMiddleware], (req, res) => {

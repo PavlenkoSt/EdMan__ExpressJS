@@ -1,5 +1,3 @@
-export { createUserSchema } from './createUserSchema';
-export { createClassSchema } from './createClassSchema';
-export { createLessonSchema } from './createLessonSchema';
-
-export { updateUserSchema } from './updateUserSchema';
+export { createUserSchema, updateUserSchema } from './userValidateSchemas';
+export { createClassSchema, updateClassSchema } from './classValidateSchemas';
+export { createLessonSchema, updateLessonSchema } from './lessonValidateSchemas';
