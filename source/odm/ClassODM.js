@@ -3,14 +3,14 @@ import mongoose from 'mongoose';
 import { generateHashById } from '../utils';
 
 const studentSchema = new mongoose.Schema({
-  user: { type: mongoose.Types.ObjectId },
+  user: { type: mongoose.Types.ObjectId, ref: 'User' },
   status: { type: String },
   expelled: { type: String },
   notes: { type: String },
 });
 
 const lessonsSchema = new mongoose.Schema({
-  lesson: { type: mongoose.Types.ObjectId },
+  lesson: { type: mongoose.Types.ObjectId, ref: 'Lesson' },
   scheduled: { type: Date },
 });
 

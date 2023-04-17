@@ -14,7 +14,7 @@ classesRouter.get('/', async (req, res) => {
   try {
     const classes = await classesController.getAll();
 
-    return classes;
+    res.status(200).json(classes);
   } catch (e) {
     const { message } = e;
 

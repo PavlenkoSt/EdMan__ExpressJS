@@ -20,7 +20,7 @@ export class UserService {
   }
 
   async getOneByHash(hash) {
-    const user = await UserODM.findOne({ hash });
+    const user = await UserODM.findOne({ hash }).lean();
 
     if (!user) {
       throw new NotFoundError(notFoundErrorMessage);

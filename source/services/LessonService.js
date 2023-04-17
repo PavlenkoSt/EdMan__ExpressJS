@@ -10,7 +10,7 @@ export class LessonService {
   }
 
   async getOneByHash(hash) {
-    const lesson = await LessonODM.find({ hash });
+    const lesson = await LessonODM.find({ hash }).lean();
 
     return lesson;
   }

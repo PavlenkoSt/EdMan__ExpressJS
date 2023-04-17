@@ -1,4 +1,4 @@
-import { ClassODM } from '../odm';
+import { ClassODM, UserODM } from '../odm';
 import { NotFoundError } from '../utils/errors';
 
 const notFoundMessage = 'Class not found';
@@ -7,13 +7,15 @@ export class ClassService {
   constructor() {}
 
   async getAll() {
-    const classes = await ClassODM.find().lean();
+    const classes = await ClassODM.find()
+      .populate({ path: 'students.user', select: 'name hash roles' })
+      .populate({ path: 'lessons.lesson' });
 
     return classes;
   }
 
   async getOneByHash(hash) {
-    const classItem = await ClassODM.findOne({ hash });
+    const classItem = await ClassODM.findOne({ hash }).lean();
 
     if (!classItem) {
       throw new NotFoundError(notFoundMessage);
