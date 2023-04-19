@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { createUserSchema, updateUserSchema } from '../validationSchemas';
+import { createUserSchema, updateUserSchema } from '../bodyValidate';
 
 import { UsersController } from '../controllers';
 

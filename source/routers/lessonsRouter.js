@@ -4,7 +4,7 @@ import { LessonsController } from '../controllers';
 
 import { authMiddleware, validateBody } from '../utils';
 
-import { createLessonSchema, updateLessonSchema } from '../validationSchemas';
+import { createLessonSchema, updateLessonSchema } from '../bodyValidate';
 
 const lessonRouter = Router();
 

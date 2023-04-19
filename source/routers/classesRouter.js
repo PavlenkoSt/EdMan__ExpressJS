@@ -4,7 +4,7 @@ import { ClassesController } from '../controllers';
 
 import { authMiddleware, validateBody } from '../utils';
 
-import { createClassSchema, updateClassSchema } from '../validationSchemas';
+import { createClassSchema, updateClassSchema } from '../bodyValidate';
 
 const classesRouter = Router();
 
