@@ -1,4 +1,7 @@
 import { LessonODM } from '../odm';
+import { NotFoundError } from '../utils/errors';
+
+const notFoundErrorMessage = 'Lesson not found';
 
 export class LessonService {
   constructor() {}
@@ -9,8 +12,22 @@ export class LessonService {
     return lessons;
   }
 
+  async getOneById(id) {
+    const lesson = await LessonODM.findById(id).lean();
+
+    if (!lesson) {
+      throw new NotFoundError(notFoundErrorMessage);
+    }
+
+    return lesson;
+  }
+
   async getOneByHash(hash) {
     const lesson = await LessonODM.find({ hash }).lean();
+
+    if (!lesson) {
+      throw new NotFoundError(notFoundErrorMessage);
+    }
 
     return lesson;
   }
@@ -24,11 +41,19 @@ export class LessonService {
   async updateOneByHash(hash, data) {
     const newLesson = await LessonODM.findOneAndUpdate({ hash }, data, { new: true });
 
+    if (!lesson) {
+      throw new NotFoundError(notFoundErrorMessage);
+    }
+
     return newLesson;
   }
 
   async deleteOneByHash(hash) {
     const deleted = await LessonODM.findOneAndDelete({ hash });
+
+    if (!lesson) {
+      throw new NotFoundError(notFoundErrorMessage);
+    }
 
     return deleted;
   }

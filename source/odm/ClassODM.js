@@ -2,15 +2,41 @@ import mongoose from 'mongoose';
 
 import { generateHashById } from '../utils';
 
+import { UserService, LessonService } from '../services';
+
+const userService = new UserService();
+const lessonService = new LessonService();
+
 const studentSchema = new mongoose.Schema({
-  user: { type: mongoose.Types.ObjectId, ref: 'User' },
-  status: { type: String },
-  expelled: { type: String },
+  user: {
+    type: mongoose.Types.ObjectId,
+    ref: 'User',
+    validate: {
+      validator: async function (id) {
+        const user = await userService.getOneById(id);
+
+        return !!user;
+      },
+      message: props => `${props.value} is not a valid user ID`,
+    },
+  },
+  status: { type: String, enum: ['student', 'teacher'] },
+  expelled: { type: Boolean, default: false },
   notes: { type: String },
 });
 
 const lessonsSchema = new mongoose.Schema({
-  lesson: { type: mongoose.Types.ObjectId, ref: 'Lesson' },
+  lesson: {
+    type: mongoose.Types.ObjectId,
+    ref: 'Lesson',
+    validate: {
+      validator: async function (id) {
+        const lesson = await lessonService.getOneById(id);
+
+        return !!lesson;
+      },
+    },
+  },
   scheduled: { type: Date },
 });
 

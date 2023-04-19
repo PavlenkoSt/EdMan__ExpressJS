@@ -19,6 +19,16 @@ export class UserService {
     return user;
   }
 
+  async getOneById(id) {
+    const user = await UserODM.findById(id).lean();
+
+    if (!user) {
+      throw new NotFoundError(notFoundErrorMessage);
+    }
+
+    return user;
+  }
+
   async getOneByHash(hash) {
     const user = await UserODM.findOne({ hash }).lean();
 
