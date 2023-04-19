@@ -7,3 +7,4 @@ export { authForTest } from './auth/authForTest';
 export { loggerMiddleware, errorLoggerMiddleware } from './logger';
 export { noEndpoint } from './noEndpoint';
 export { generateHashById } from './generateHashById';
+export { phoneNumberRegExp, urlRegExp } from './regexps';

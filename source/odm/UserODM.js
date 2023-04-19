@@ -1,18 +1,34 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
-import { generateHashById } from '../utils';
+import { generateHashById, phoneNumberRegExp, urlRegExp } from '../utils';
+
+const urlValidateObj = {
+  validator: function (v) {
+    return urlRegExp.test(v);
+  },
+  message: props => `${props.value} is not a valid URL!`,
+};
 
 const userSchema = new mongoose.Schema(
   {
     name: {
-      first: { type: String, index: true },
-      last: { type: String, index: true },
+      first: { type: String, index: true, min: 2, max: 15 },
+      last: { type: String, index: true, min: 2, max: 15 },
     },
     phones: [
       {
-        phone: { type: String },
-        primary: { type: Boolean },
+        phone: {
+          type: String,
+          required: true,
+          validate: {
+            validator: function (v) {
+              return phoneNumberRegExp.test(v);
+            },
+            message: props => `${props.value} is not a valid mobile phone number!`,
+          },
+        },
+        primary: { type: Boolean, default: false },
       },
     ],
     emails: [
@@ -21,18 +37,18 @@ const userSchema = new mongoose.Schema(
         primary: { type: Boolean },
       },
     ],
-    password: { type: String },
-    sex: { type: String },
-    roles: { type: [String] },
+    password: { type: String, min: 6, max: 30 },
+    sex: { type: String, enum: ['m', 'f'] },
+    roles: { type: [{ type: String, enum: ['teacher', 'student'], unique: true }] },
     social: {
-      facebook: { type: String },
-      linkedin: { type: String },
-      github: { type: String },
-      skype: { type: String },
+      facebook: { type: String, validate: urlValidateObj },
+      linkedin: { type: String, validate: urlValidateObj },
+      github: { type: String, validate: urlValidateObj },
+      skype: { type: String, validate: urlValidateObj },
     },
-    notes: { type: String },
+    notes: { type: String, max: 250 },
     hash: { type: String, unique: true },
-    disabled: { type: Boolean },
+    disabled: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

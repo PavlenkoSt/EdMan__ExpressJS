@@ -20,9 +20,8 @@ const studentSchema = new mongoose.Schema({
       message: props => `${props.value} is not a valid user ID`,
     },
   },
-  status: { type: String, enum: ['student', 'teacher'] },
   expelled: { type: Boolean, default: false },
-  notes: { type: String },
+  notes: { type: String, max: 250 },
 });
 
 const lessonsSchema = new mongoose.Schema({
@@ -42,8 +41,8 @@ const lessonsSchema = new mongoose.Schema({
 
 const classSchema = new mongoose.Schema(
   {
-    title: { type: String },
-    description: { type: String },
+    title: { type: String, max: 30 },
+    description: { type: String, max: 250 },
     hash: { type: String, unique: true },
     students: [studentSchema],
     lessons: [lessonsSchema],
