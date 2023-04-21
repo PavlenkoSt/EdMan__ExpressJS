@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import mongooseAutoPopulate from 'mongoose-autopopulate';
 
 import { generateHashById } from '../utils';
 
@@ -19,6 +20,7 @@ const studentSchema = new mongoose.Schema({
       },
       message: props => `${props.value} is not a valid user ID`,
     },
+    autopopulate: true,
   },
   expelled: { type: Boolean, default: false },
   notes: { type: String, max: 250 },
@@ -35,6 +37,7 @@ const lessonsSchema = new mongoose.Schema({
         return !!lesson;
       },
     },
+    autopopulate: true,
   },
   scheduled: { type: Date },
 });
@@ -54,6 +57,8 @@ const classSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+classSchema.plugin(mongooseAutoPopulate);
 
 classSchema.index({ title: 'text', description: 'text' });
 
